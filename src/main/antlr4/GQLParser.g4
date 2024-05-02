@@ -17,68 +17,27 @@ boolean_literal
     | UNKNOWN
     ;
 // numeric literal
-// note: because there is no separator allowed before exact or approximate suffix
-// we made some special rules in the lexer
 signed_numeric_literal
-    : (PLUS_SIGN | MINUS_SIGN)?  unsigned_numeric_literal
+    : (PLUS_SIGN | MINUS_SIGN)? unsigned_numeric_literal
     ;
 unsigned_numeric_literal
     : exact_numeric_literal
     | approximate_numeric_literal
     ;
 exact_numeric_literal
-    : unsigned_decimal_in_scientific_notation_with_exact_suffix
-    | unsigned_decimal_in_common_notation_with_exact_suffix
-    | unsigned_decimal_in_common_notation
-    | UNSIGNED_DECIMAL_INTEGER_WITH_EXACT_SUFFIX
+    : EXACT_NUMERIC_LITERAL
+    | UNSIGNED_DECIMAL_IN_COMMON_NOTATION
     | unsigned_integer
     ;
-unsigned_decimal_in_scientific_notation
-    : unsigned_decimal_in_common_notation E signed_decimal_integer
-    | UNSIGNED_DECIMAL_INTEGER E signed_decimal_integer
-    ;
-unsigned_decimal_in_scientific_notation_with_exact_suffix
-    : unsigned_decimal_in_common_notation E signed_decimal_integer_with_exact_suffix
-    | UNSIGNED_DECIMAL_INTEGER E signed_decimal_integer_with_exact_suffix
-    ;
-unsigned_decimal_in_scientific_notation_with_approximate_suffix
-    : unsigned_decimal_in_common_notation E signed_decimal_integer_with_approximate_suffix
-    | UNSIGNED_DECIMAL_INTEGER E signed_decimal_integer_with_approximate_suffix
-    ;
-signed_decimal_integer
-    : (PLUS_SIGN | MINUS_SIGN)? UNSIGNED_DECIMAL_INTEGER
-    ;
-signed_decimal_integer_with_exact_suffix
-    : (PLUS_SIGN | MINUS_SIGN)? UNSIGNED_DECIMAL_INTEGER_WITH_EXACT_SUFFIX
-    ;
-signed_decimal_integer_with_approximate_suffix
-    : (PLUS_SIGN | MINUS_SIGN)? UNSIGNED_DECIMAL_INTEGER_WITH_APPROXIMATE_SUFFIX
-    ;
-unsigned_decimal_in_common_notation
-    : UNSIGNED_DECIMAL_INTEGER PERIOD UNSIGNED_DECIMAL_INTEGER?
-    | PERIOD UNSIGNED_DECIMAL_INTEGER
-    ;
-unsigned_decimal_in_common_notation_with_exact_suffix
-    : UNSIGNED_DECIMAL_INTEGER PERIOD UNSIGNED_DECIMAL_INTEGER_WITH_EXACT_SUFFIX
-    | UNSIGNED_DECIMAL_INTEGER PERIOD_WITH_EXACT_SUFFIX
-    | PERIOD UNSIGNED_DECIMAL_INTEGER_WITH_EXACT_SUFFIX
-    ;
-unsigned_decimal_in_common_notation_with_approximate_suffix
-    : UNSIGNED_DECIMAL_INTEGER PERIOD UNSIGNED_DECIMAL_INTEGER_WITH_APPROXIMATE_SUFFIX
-    | UNSIGNED_DECIMAL_INTEGER PERIOD_WITH_APPROXIMATE_SUFFIX
-    | PERIOD UNSIGNED_DECIMAL_INTEGER_WITH_APPROXIMATE_SUFFIX
+approximate_numeric_literal
+    : APPROXIMATE_NUMERIC_LITERAL
+    | UNSIGNED_DECIMAL_IN_SCIENTIFIC_NOTATION
     ;
 unsigned_integer
     : UNSIGNED_DECIMAL_INTEGER
     | UNSIGNED_HEXADECIMAL_INTEGER
     | UNSIGNED_OCTAL_INTEGER
     | UNSIGNED_BINARY_INTEGER
-    ;
-approximate_numeric_literal
-    : unsigned_decimal_in_scientific_notation
-    | unsigned_decimal_in_scientific_notation_with_approximate_suffix
-    | unsigned_decimal_in_common_notation_with_approximate_suffix
-    | UNSIGNED_DECIMAL_INTEGER_WITH_APPROXIMATE_SUFFIX
     ;
 
 // identifier

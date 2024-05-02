@@ -9,6 +9,7 @@ channels {
     COMMENT
 }
 
+// ---------------------------------------------------------------------
 // KEYWORD
 // PRE-RESERVED WORD
 ABSTRACT : [aA][bB][sS][tT][rR][aA][cC][tT];
@@ -324,7 +325,9 @@ WITHOUT : [wW][iI][tT][hH][oO][uU][tT];
 WRITE : [wW][rR][iI][tT][eE];
 ZONE : [zZ][oO][nN][eE];
 
+// ---------------------------------------------------------------------
 // REGULAR IDENTIFIER
+// NOTE:
 // IT NEED TO BE DEFINED BEFORE THE SPECIAL CHARACTER
 // BECAUSE WE THINK _ IS LIKELY TO BE USED AS REGULAR IDENTIFIER, BUT NOT JUST AN UNDERSCORE
 REGULAR_IDENTIFIER
@@ -332,31 +335,55 @@ REGULAR_IDENTIFIER
     : [a-zA-Z_][a-zA-Z_0-9]*
     ;
 
+// ---------------------------------------------------------------------
 // DIGIT
+// SPECIAL CASE NEEDING TO CHECK FIRST
 UNSIGNED_DECIMAL_INTEGER
-    : [0-9][_0-9]*
-    ;
-UNSIGNED_DECIMAL_INTEGER_WITH_EXACT_SUFFIX
-    : [0-9][_0-9]*[mM]
-    ;
-UNSIGNED_DECIMAL_INTEGER_WITH_APPROXIMATE_SUFFIX
-    : [0-9][_0-9]*[dfDF]
+    : DecimalNumber
     ;
 UNSIGNED_HEXADECIMAL_INTEGER
-    : [0][x][0-9a-fA-F][_0-9a-fA-F]*
+    : HexadecimalPrefix HEXADECIMALDIGIT (UNDERSCORE? HEXADECIMALDIGIT)*
     ;
 UNSIGNED_OCTAL_INTEGER
-    : [0][o][0-7][_0-7]*
+    : OctalPrefix OCTALDIGIT (UNDERSCORE? OCTALDIGIT)*
     ;
 UNSIGNED_BINARY_INTEGER
-    : [0][b][0-1][_0-1]*
+    : BinaryPrefix BINARYDIGIT (UNDERSCORE? BINARYDIGIT)*
+    ;
+// OTHER TYPE OF NUMERIC LITERAL
+UNSIGNED_DECIMAL_IN_SCIENTIFIC_NOTATION
+    : DecimalNumber [eE] SIGN? DecimalNumber
+    | UNSIGNED_DECIMAL_IN_COMMON_NOTATION [eE] SIGN? DecimalNumber
+    ;
+UNSIGNED_DECIMAL_IN_COMMON_NOTATION
+    : DecimalNumber PERIOD DecimalNumber?
+    | PERIOD DecimalNumber
+    ;
+EXACT_NUMERIC_LITERAL
+    : UNSIGNED_DECIMAL_IN_SCIENTIFIC_NOTATION ExactNumberSuffix
+    | UNSIGNED_DECIMAL_IN_COMMON_NOTATION ExactNumberSuffix
+    | UNSIGNED_DECIMAL_INTEGER ExactNumberSuffix
+    ;
+APPROXIMATE_NUMERIC_LITERAL
+    : UNSIGNED_DECIMAL_IN_SCIENTIFIC_NOTATION ApproximateNumberSuffix
+    | UNSIGNED_DECIMAL_IN_COMMON_NOTATION ApproximateNumberSuffix
+    | UNSIGNED_DECIMAL_INTEGER ApproximateNumberSuffix
     ;
 
+fragment DecimalNumber : DIGIT (UNDERSCORE? DIGIT)*;
+fragment HexadecimalPrefix : '0x';
+fragment OctalPrefix : '0o';
+fragment BinaryPrefix : '0b';
+fragment ExactNumberSuffix : [mM];
+fragment ApproximateNumberSuffix : [dfDF];
+fragment SIGN : [+-];
+fragment DIGIT : [0-9];
+fragment OCTALDIGIT : [0-7];
+fragment HEXADECIMALDIGIT : [0-9a-fA-F];
+fragment BINARYDIGIT : [01];
+
+// ---------------------------------------------------------------------
 // TOKEN WITH SPECIAL CHARACTERS
-// SPECIAL CASE
-PERIOD_WITH_EXACT_SUFFIX : '.' [mM];
-PERIOD_WITH_APPROXIMATE_SUFFIX : '.' [dfDF];
-// IN DOCUMENT
 MULTISET_ALTERNATION_OPERATOR : '|+|';
 BRACKET_RIGHT_ARROW : ']->';
 BRACKET_TILDE_RIGHT_ARROW : ']~>';
@@ -394,9 +421,8 @@ DOUBLE_SINGLE_QUOTE : '\'\'';
 DOUBLE_DOUBLE_QUOTE : '""';
 DOUBLE_GRAVE_ACCENT : '``';
 
-
 // SPECIAL CHARACTER
-// NOTE
+// NOTE:
 // THE ANTLR ALWAYS TRY TO MATCH THE LONGEST TOKEN
 SPACE : ' ';
 AMPERSAND : '&';

@@ -48,10 +48,6 @@ public class GQLNumericLiteralTest {
                                         case "EXACT_NUMERIC_LITERAL" -> parser.exact_numeric_literal();
                                         case "APPROXIMATE_NUMERIC_LITERAL" -> parser.approximate_numeric_literal();
                                         case "UNSIGNED_INTEGER" -> parser.unsigned_integer();
-                                        case "UNSIGNED_DECIMAL_IN_SCIENTIFIC_NOTATION" ->
-                                                parser.unsigned_decimal_in_scientific_notation();
-                                        case "UNSIGNED_DECIMAL_IN_COMMON_NOTATION" ->
-                                                parser.unsigned_decimal_in_common_notation();
                                         default -> fail("Test case rule not recognized: " + parts[1]);
                                     };
 
