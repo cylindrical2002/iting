@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GQLNumericLiteralTest {
+public class GQLCharacterStringLiteralTest {
 
     @BeforeEach
     public void setup() {
@@ -24,8 +24,8 @@ public class GQLNumericLiteralTest {
     }
 
     @TestFactory
-    public Iterable<DynamicTest> dynamicTestsForNumericLiterals() {
-        URL resource = getClass().getResource("/numeric_literal.txt");
+    public Iterable<DynamicTest> dynamicTestsForCharacterStringLiterals() {
+        URL resource = getClass().getResource("/character_string_literal.txt");
         if (resource == null) {
             throw new IllegalArgumentException("Resource not found");
         }
@@ -50,11 +50,13 @@ public class GQLNumericLiteralTest {
 
                                 try {
                                     ParseTree tree = switch (parts[1]) {
-                                        case "SIGNED_NUMERIC_LITERAL" -> parser.signed_numeric_literal();
-                                        case "UNSIGNED_NUMERIC_LITERAL" -> parser.unsigned_numeric_literal();
-                                        case "EXACT_NUMERIC_LITERAL" -> parser.exact_numeric_literal();
-                                        case "APPROXIMATE_NUMERIC_LITERAL" -> parser.approximate_numeric_literal();
-                                        case "UNSIGNED_INTEGER" -> parser.unsigned_integer();
+                                        case "CHARACTER_STRING_LITERAL" -> parser.character_string_literal();
+                                        case "SINGLE_QUOTED_CHARACTER_SEQUENCE" ->
+                                                parser.single_quoted_character_sequence();
+                                        case "DOUBLE_QUOTED_CHARACTER_SEQUENCE" ->
+                                                parser.double_quoted_character_sequence();
+                                        case "ACCENT_QUOTED_CHARACTER_SEQUENCE" ->
+                                                parser.accent_quoted_character_sequence();
                                         default -> fail("Test case rule not recognized: " + parts[1]);
                                     };
 
@@ -79,4 +81,5 @@ public class GQLNumericLiteralTest {
             throw new RuntimeException("Error reading from file", e);
         }
     }
+
 }

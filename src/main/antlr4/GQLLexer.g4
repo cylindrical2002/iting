@@ -336,6 +336,14 @@ REGULAR_IDENTIFIER
     ;
 
 // ---------------------------------------------------------------------
+// BYTE STRING
+//BYTE_STRING
+//    : 'X' QUOTE SPACE*  QUOTE
+//    ;
+
+//fragment ByteStringPrefix : [xX];
+
+// ---------------------------------------------------------------------
 // DIGIT
 // SPECIAL CASE NEEDING TO CHECK FIRST
 UNSIGNED_DECIMAL_INTEGER
@@ -383,6 +391,66 @@ fragment HEXADECIMALDIGIT : [0-9a-fA-F];
 fragment BINARYDIGIT : [01];
 
 // ---------------------------------------------------------------------
+// CHARACTER STRING
+// NORMAL CASE WITH ESCAPE CHARACTERS
+SINGLE_QUOTED_CHARACTER_SEQUENCE
+    : QUOTE (SingleQuotedStringLiteralCharacter | EscapeCharacter | DOUBLE_SINGLE_QUOTE)* QUOTE
+    ;
+DOUBLE_QUOTED_CHARACTER_SEQUENCE
+    : DOUBLE_QUOTE (DoubleQuotedStringLiteralCharacter | EscapeCharacter | DOUBLE_DOUBLE_QUOTE)* DOUBLE_QUOTE
+    ;
+ACCENT_QUOTED_CHARACTER_SEQUENCE
+    : GRAVE_ACCENT (AccentQuotedStringLiteralCharacter | EscapeCharacter | DOUBLE_GRAVE_ACCENT)* GRAVE_ACCENT
+    ;
+// NO ESCAPE
+NO_ESCAPE_SINGLE_QUOTED_CHARACTER_SEQUENCE
+    : NoEscapePrefix QUOTE (SingleQuotedStringLiteralCharacter | '\\' | DOUBLE_SINGLE_QUOTE)* QUOTE
+    ;
+NO_ESCAPE_DOUBLE_QUOTED_CHARACTER_SEQUENCE
+    : NoEscapePrefix DOUBLE_QUOTE (DoubleQuotedStringLiteralCharacter | '\\' | DOUBLE_DOUBLE_QUOTE)* DOUBLE_QUOTE
+    ;
+NO_ESCAPE_ACCENT_QUOTED_CHARACTER_SEQUENCE
+    : NoEscapePrefix GRAVE_ACCENT (AccentQuotedStringLiteralCharacter | '\\' | DOUBLE_GRAVE_ACCENT)* GRAVE_ACCENT
+    ;
+
+fragment NoEscapePrefix : COMMERCIAL_AT;
+
+fragment SingleQuotedStringLiteralCharacter : ~['\\];
+fragment DoubleQuotedStringLiteralCharacter : ~["\\];
+fragment AccentQuotedStringLiteralCharacter : ~[`\\];
+fragment EscapeCharacter
+    : EscapeReverseSolidus
+    | EscapeQuote
+    | EscapeDoubleQuote
+    | EscapeGraveAccent
+    | EscapeTab
+    | EscapeBackspace
+    | EscapeNewline
+    | EscapeCarriageReturn
+    | EscapeFormFeed
+    | UnicodeEscapeValue
+    ;
+fragment EscapeReverseSolidus : REVERSE_SOLIDUS REVERSE_SOLIDUS;
+fragment EscapeQuote : REVERSE_SOLIDUS QUOTE;
+fragment EscapeDoubleQuote : REVERSE_SOLIDUS DOUBLE_QUOTE;
+fragment EscapeGraveAccent : REVERSE_SOLIDUS GRAVE_ACCENT;
+fragment EscapeTab : REVERSE_SOLIDUS 't';
+fragment EscapeBackspace : REVERSE_SOLIDUS 'b';
+fragment EscapeNewline : REVERSE_SOLIDUS 'n';
+fragment EscapeCarriageReturn : REVERSE_SOLIDUS 'r';
+fragment EscapeFormFeed : REVERSE_SOLIDUS 'f';
+fragment UnicodeEscapeValue
+    : Unicode4DigitEscapeValue
+    | Unicode6DigitEscapeValue
+    ;
+fragment Unicode4DigitEscapeValue
+    : REVERSE_SOLIDUS 'u' HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT
+    ;
+fragment Unicode6DigitEscapeValue
+    : REVERSE_SOLIDUS 'U' HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT
+    ;
+
+// ---------------------------------------------------------------------
 // TOKEN WITH SPECIAL CHARACTERS
 MULTISET_ALTERNATION_OPERATOR : '|+|';
 BRACKET_RIGHT_ARROW : ']->';
@@ -421,6 +489,11 @@ DOUBLE_SINGLE_QUOTE : '\'\'';
 DOUBLE_DOUBLE_QUOTE : '""';
 DOUBLE_GRAVE_ACCENT : '``';
 
+// ---------------------------------------------------------------------
+// WHITESPACE
+WS : [ \t\r\n]+ -> skip ;
+
+// ---------------------------------------------------------------------
 // SPECIAL CHARACTER
 // NOTE:
 // THE ANTLR ALWAYS TRY TO MATCH THE LONGEST TOKEN
@@ -458,11 +531,3 @@ VERTICAL_BAR : '|';
 // TODO: support more digits or languages
 // OTHER_DIGIT : '\uFFFE';
 // OTHER_LANGUAGE_CHARACTER : '\uFFFF';
-
-WS : [ \t\r\n]+ -> skip ;
-
-// some extended
-// EXTENDED_IDENTIFIER
-//     // <identifier extend>...
-//     : [a-zA-Z_0-9]+
-//     ;

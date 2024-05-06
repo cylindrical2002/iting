@@ -9,13 +9,36 @@ options {
     tokenVocab = GQLLexer;
 }
 
+// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
 // literal
+
+// ---------------------------------------------------------------------
 // boolean literal
 boolean_literal
     : TRUE
     | FALSE
     | UNKNOWN
     ;
+// ---------------------------------------------------------------------
+// character string literal
+character_string_literal
+    : single_quoted_character_sequence
+    | double_quoted_character_sequence
+    ;
+single_quoted_character_sequence
+    : SINGLE_QUOTED_CHARACTER_SEQUENCE
+    | NO_ESCAPE_SINGLE_QUOTED_CHARACTER_SEQUENCE
+    ;
+double_quoted_character_sequence
+    : DOUBLE_QUOTED_CHARACTER_SEQUENCE
+    | NO_ESCAPE_DOUBLE_QUOTED_CHARACTER_SEQUENCE
+    ;
+accent_quoted_character_sequence
+    : ACCENT_QUOTED_CHARACTER_SEQUENCE
+    | NO_ESCAPE_ACCENT_QUOTED_CHARACTER_SEQUENCE
+    ;
+// ---------------------------------------------------------------------
 // numeric literal
 signed_numeric_literal
     : (PLUS_SIGN | MINUS_SIGN)? unsigned_numeric_literal
@@ -40,12 +63,23 @@ unsigned_integer
     | UNSIGNED_BINARY_INTEGER
     ;
 
+// ---------------------------------------------------------------------
+// null literal
+null_literal
+    : NULL
+    ;
+
+
+// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
 // identifier
 non__delimited_identifier
     : REGULAR_IDENTIFIER
 //  | EXTENDED_IDENTIFIER
     ;
 
+// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
 // keyword
 keyword
     : reserved_word
@@ -367,6 +401,8 @@ pre__reserved_word
     | WHITESPACE
     ;
 
+// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
 // synonym
 edge_synonym
     : EDGE
@@ -383,6 +419,8 @@ node_synonym:
     | VERTEX
     ;
 
+// ---------------------------------------------------------------------
+// ---------------------------------------------------------------------
 // implies
 implies
     : RIGHT_DOUBLE_ARROW

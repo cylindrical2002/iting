@@ -9,8 +9,8 @@ import org.cylindrical.iting.grammar.GQLLexer;
 import org.cylindrical.iting.grammar.GQLParser;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        String expression = "10.M";
+    public static void main(String[] args) {
+        String expression = "0xFF_F__F";
         CharStream input = CharStreams.fromString(expression);
         GQLLexer lexer = new GQLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -20,7 +20,7 @@ public class Main {
         }
 
         GQLParser parser = new GQLParser(tokens);
-        ParseTree tree = parser.unsigned_numeric_literal();
+        ParseTree tree = parser.unsigned_integer();
         System.out.println(tree.toStringTree(parser));
     }
 }
