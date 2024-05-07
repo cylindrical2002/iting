@@ -2,7 +2,6 @@ package org.cylindrical.iting.grammar;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
@@ -17,11 +16,6 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GQLCharacterStringLiteralTest {
-
-    @BeforeEach
-    public void setup() {
-        // Setup code if necessary
-    }
 
     @TestFactory
     public Iterable<DynamicTest> dynamicTestsForCharacterStringLiterals() {

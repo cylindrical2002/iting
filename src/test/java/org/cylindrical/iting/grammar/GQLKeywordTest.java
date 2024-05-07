@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.junit.jupiter.api.Test;
 
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -14,12 +15,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class GQLKeywordTest {
 
     private void testWords(String filePath, String testName) throws Exception {
-        List<String> lines = Files.readAllLines(Paths.get(getClass().getResource(filePath).toURI()));
+        URL fileUrl = getClass().getResource(filePath);
+        if (fileUrl == null) {
+            throw new IllegalArgumentException("File not found: " + filePath);
+        }
+        List<String> lines = Files.readAllLines(Paths.get(fileUrl.toURI()));
         GQLLexer lexer = new GQLLexer(CharStreams.fromString(String.join("\n", lines)));
         int tokenCount = 0;
         try {
             for (Token token = lexer.nextToken(); token.getType() != Token.EOF; token = lexer.nextToken()) {
-                System.out.println(token.getText() + " : " + lexer.getVocabulary().getSymbolicName(token.getType()));
+                if (token.getChannel() == Token.HIDDEN_CHANNEL) continue;
+                System.out.println(
+                        token.getText() + " : " + lexer.getVocabulary().getSymbolicName(token.getType())
+                );
                 tokenCount++;
             }
         } catch (ParseCancellationException e) {

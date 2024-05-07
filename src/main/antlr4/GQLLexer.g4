@@ -326,22 +326,83 @@ WRITE : [wW][rR][iI][tT][eE];
 ZONE : [zZ][oO][nN][eE];
 
 // ---------------------------------------------------------------------
-// REGULAR IDENTIFIER
-// NOTE:
-// IT NEED TO BE DEFINED BEFORE THE SPECIAL CHARACTER
-// BECAUSE WE THINK _ IS LIKELY TO BE USED AS REGULAR IDENTIFIER, BUT NOT JUST AN UNDERSCORE
-REGULAR_IDENTIFIER
-    // <identifier start> [ <identifier extend>... ]
-    : [a-zA-Z_][a-zA-Z_0-9]*
+// CHARACTER STRING
+// NORMAL CASE WITH ESCAPE CHARACTERS
+SINGLE_QUOTED_CHARACTER_SEQUENCE
+    : QUOTE (SingleQuotedStringLiteralCharacter | EscapeCharacter | DOUBLE_SINGLE_QUOTE)* QUOTE
+    ;
+DOUBLE_QUOTED_CHARACTER_SEQUENCE
+    : DOUBLE_QUOTE (DoubleQuotedStringLiteralCharacter | EscapeCharacter | DOUBLE_DOUBLE_QUOTE)* DOUBLE_QUOTE
+    ;
+ACCENT_QUOTED_CHARACTER_SEQUENCE
+    : GRAVE_ACCENT (AccentQuotedStringLiteralCharacter | EscapeCharacter | DOUBLE_GRAVE_ACCENT)* GRAVE_ACCENT
+    ;
+// NO ESCAPE
+NO_ESCAPE_SINGLE_QUOTED_CHARACTER_SEQUENCE
+    : NoEscapePrefix QUOTE (SingleQuotedStringLiteralCharacter | '\\' | DOUBLE_SINGLE_QUOTE)* QUOTE
+    ;
+NO_ESCAPE_DOUBLE_QUOTED_CHARACTER_SEQUENCE
+    : NoEscapePrefix DOUBLE_QUOTE (DoubleQuotedStringLiteralCharacter | '\\' | DOUBLE_DOUBLE_QUOTE)* DOUBLE_QUOTE
+    ;
+NO_ESCAPE_ACCENT_QUOTED_CHARACTER_SEQUENCE
+    : NoEscapePrefix GRAVE_ACCENT (AccentQuotedStringLiteralCharacter | '\\' | DOUBLE_GRAVE_ACCENT)* GRAVE_ACCENT
+    ;
+
+fragment NoEscapePrefix : COMMERCIAL_AT;
+// not ' or \ bidirectional control characters or Cc category but not White_Space or Cn
+fragment SingleQuotedStringLiteralCharacter
+    : (~['\\\u202A-\u202E\u2066-\u2069\p{Cc}\p{Cn}]) | [\p{White_Space}]
+    ;
+// not " or \ bidirectional control characters or Cc category but not White_Space or Cn
+fragment DoubleQuotedStringLiteralCharacter
+    : (~["\\\u202A-\u202E\u2066-\u2069\p{Cc}\p{Cn}]) | [\p{White_Space}]
+    ;
+// not ` or \ bidirectional control characters or Cc category but not White_Space or Cn
+fragment AccentQuotedStringLiteralCharacter
+    : (~[`\\\u202A-\u202E\u2066-\u2069\p{Cc}\p{Cn}]) | [\p{White_Space}]
+    ;
+fragment EscapeCharacter
+    : EscapeReverseSolidus
+    | EscapeQuote
+    | EscapeDoubleQuote
+    | EscapeGraveAccent
+    | EscapeTab
+    | EscapeBackspace
+    | EscapeNewline
+    | EscapeCarriageReturn
+    | EscapeFormFeed
+    | UnicodeEscapeValue
+    ;
+fragment EscapeReverseSolidus : REVERSE_SOLIDUS REVERSE_SOLIDUS;
+fragment EscapeQuote : REVERSE_SOLIDUS QUOTE;
+fragment EscapeDoubleQuote : REVERSE_SOLIDUS DOUBLE_QUOTE;
+fragment EscapeGraveAccent : REVERSE_SOLIDUS GRAVE_ACCENT;
+fragment EscapeTab : REVERSE_SOLIDUS 't';
+fragment EscapeBackspace : REVERSE_SOLIDUS 'b';
+fragment EscapeNewline : REVERSE_SOLIDUS 'n';
+fragment EscapeCarriageReturn : REVERSE_SOLIDUS 'r';
+fragment EscapeFormFeed : REVERSE_SOLIDUS 'f';
+fragment UnicodeEscapeValue
+    : Unicode4DigitEscapeValue
+    | Unicode6DigitEscapeValue
+    ;
+fragment Unicode4DigitEscapeValue
+    : REVERSE_SOLIDUS 'u' HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT
+    ;
+fragment Unicode6DigitEscapeValue
+    : REVERSE_SOLIDUS 'U' HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT
     ;
 
 // ---------------------------------------------------------------------
 // BYTE STRING
-//BYTE_STRING
-//    : 'X' QUOTE SPACE*  QUOTE
-//    ;
+BYTE_STRING
+    : ByteStringPrefix SingleQuotedByteString (SEPARATOR SingleQuotedByteString)*
+    ;
 
-//fragment ByteStringPrefix : [xX];
+fragment SingleQuotedByteString
+    : QUOTE SPACE* (HEXADECIMALDIGIT SPACE* HEXADECIMALDIGIT SPACE*)* QUOTE
+    ;
+fragment ByteStringPrefix : [xX];
 
 // ---------------------------------------------------------------------
 // DIGIT
@@ -391,64 +452,11 @@ fragment HEXADECIMALDIGIT : [0-9a-fA-F];
 fragment BINARYDIGIT : [01];
 
 // ---------------------------------------------------------------------
-// CHARACTER STRING
-// NORMAL CASE WITH ESCAPE CHARACTERS
-SINGLE_QUOTED_CHARACTER_SEQUENCE
-    : QUOTE (SingleQuotedStringLiteralCharacter | EscapeCharacter | DOUBLE_SINGLE_QUOTE)* QUOTE
-    ;
-DOUBLE_QUOTED_CHARACTER_SEQUENCE
-    : DOUBLE_QUOTE (DoubleQuotedStringLiteralCharacter | EscapeCharacter | DOUBLE_DOUBLE_QUOTE)* DOUBLE_QUOTE
-    ;
-ACCENT_QUOTED_CHARACTER_SEQUENCE
-    : GRAVE_ACCENT (AccentQuotedStringLiteralCharacter | EscapeCharacter | DOUBLE_GRAVE_ACCENT)* GRAVE_ACCENT
-    ;
-// NO ESCAPE
-NO_ESCAPE_SINGLE_QUOTED_CHARACTER_SEQUENCE
-    : NoEscapePrefix QUOTE (SingleQuotedStringLiteralCharacter | '\\' | DOUBLE_SINGLE_QUOTE)* QUOTE
-    ;
-NO_ESCAPE_DOUBLE_QUOTED_CHARACTER_SEQUENCE
-    : NoEscapePrefix DOUBLE_QUOTE (DoubleQuotedStringLiteralCharacter | '\\' | DOUBLE_DOUBLE_QUOTE)* DOUBLE_QUOTE
-    ;
-NO_ESCAPE_ACCENT_QUOTED_CHARACTER_SEQUENCE
-    : NoEscapePrefix GRAVE_ACCENT (AccentQuotedStringLiteralCharacter | '\\' | DOUBLE_GRAVE_ACCENT)* GRAVE_ACCENT
-    ;
+// IDENTIFIER
+REGULAR_IDENTIFIER : IdentifierStart IdentifierExtend*;
 
-fragment NoEscapePrefix : COMMERCIAL_AT;
-
-fragment SingleQuotedStringLiteralCharacter : ~['\\];
-fragment DoubleQuotedStringLiteralCharacter : ~["\\];
-fragment AccentQuotedStringLiteralCharacter : ~[`\\];
-fragment EscapeCharacter
-    : EscapeReverseSolidus
-    | EscapeQuote
-    | EscapeDoubleQuote
-    | EscapeGraveAccent
-    | EscapeTab
-    | EscapeBackspace
-    | EscapeNewline
-    | EscapeCarriageReturn
-    | EscapeFormFeed
-    | UnicodeEscapeValue
-    ;
-fragment EscapeReverseSolidus : REVERSE_SOLIDUS REVERSE_SOLIDUS;
-fragment EscapeQuote : REVERSE_SOLIDUS QUOTE;
-fragment EscapeDoubleQuote : REVERSE_SOLIDUS DOUBLE_QUOTE;
-fragment EscapeGraveAccent : REVERSE_SOLIDUS GRAVE_ACCENT;
-fragment EscapeTab : REVERSE_SOLIDUS 't';
-fragment EscapeBackspace : REVERSE_SOLIDUS 'b';
-fragment EscapeNewline : REVERSE_SOLIDUS 'n';
-fragment EscapeCarriageReturn : REVERSE_SOLIDUS 'r';
-fragment EscapeFormFeed : REVERSE_SOLIDUS 'f';
-fragment UnicodeEscapeValue
-    : Unicode4DigitEscapeValue
-    | Unicode6DigitEscapeValue
-    ;
-fragment Unicode4DigitEscapeValue
-    : REVERSE_SOLIDUS 'u' HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT
-    ;
-fragment Unicode6DigitEscapeValue
-    : REVERSE_SOLIDUS 'U' HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT HEXADECIMALDIGIT
-    ;
+fragment IdentifierStart : [\p{XID_Start}];
+fragment IdentifierExtend : [\p{XID_Continue}];
 
 // ---------------------------------------------------------------------
 // TOKEN WITH SPECIAL CHARACTERS
@@ -488,10 +496,29 @@ TILDE_SLASH : '~/';
 DOUBLE_SINGLE_QUOTE : '\'\'';
 DOUBLE_DOUBLE_QUOTE : '""';
 DOUBLE_GRAVE_ACCENT : '``';
+DOUBLE_SOLIDUS : '//';
+BRACKET_COMMENT_INTRODUCER : '/*';
+BRACKET_COMMENT_TERMINATOR : '*/';
 
 // ---------------------------------------------------------------------
-// WHITESPACE
-WS : [ \t\r\n]+ -> skip ;
+// SEPARATOR
+SEPARATOR : (Comment | Whitespace)+ -> channel(HIDDEN);
+
+fragment Whitespace : WhitespaceCharacters+;
+fragment WhitespaceCharacters : [\p{White_Space}];
+// Minimum Subset of Unicode Whitespace Characters
+fragment TruncatingWhitespace : SPACE;
+fragment BidirectionalControlCharacter : [\u202A-\u202E\u2066-\u2069];
+fragment Comment : (SimpleComment | BracketedComment);
+fragment SimpleComment : (DOUBLE_SOLIDUS | DOUBLE_MINUS_SIGN) ~[\r\n]* Newline;
+fragment BracketedComment
+    : BRACKET_COMMENT_INTRODUCER (BracketedCommentContents)* BRACKET_COMMENT_TERMINATOR
+    ;
+fragment BracketedCommentContents
+    : ~[*] // not *
+    | '*' ~[/] // if * not followed by /
+    ;
+fragment Newline : [\r\n];
 
 // ---------------------------------------------------------------------
 // SPECIAL CHARACTER
