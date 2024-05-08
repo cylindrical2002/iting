@@ -395,8 +395,8 @@ fragment Unicode6DigitEscapeValue
 
 // ---------------------------------------------------------------------
 // BYTE STRING
-BYTE_STRING
-    : ByteStringPrefix SingleQuotedByteString (SEPARATOR SingleQuotedByteString)*
+BYTE_STRING_LITERAL
+    : ByteStringPrefix SingleQuotedByteString (SEPARATOR? Newline SEPARATOR? SingleQuotedByteString)*
     ;
 
 fragment SingleQuotedByteString
@@ -446,7 +446,8 @@ fragment BinaryPrefix : '0b';
 fragment ExactNumberSuffix : [mM];
 fragment ApproximateNumberSuffix : [dfDF];
 fragment SIGN : [+-];
-fragment DIGIT : [0-9];
+fragment DIGIT : [\p{Nd}];
+fragment STANDARDDIGIT : [0-9];
 fragment OCTALDIGIT : [0-7];
 fragment HEXADECIMALDIGIT : [0-9a-fA-F];
 fragment BINARYDIGIT : [01];
@@ -454,6 +455,7 @@ fragment BINARYDIGIT : [01];
 // ---------------------------------------------------------------------
 // IDENTIFIER
 REGULAR_IDENTIFIER : IdentifierStart IdentifierExtend*;
+EXTENDED_IDENTIFIER : IdentifierExtend+;
 
 fragment IdentifierStart : [\p{XID_Start}];
 fragment IdentifierExtend : [\p{XID_Continue}];
@@ -510,7 +512,8 @@ fragment WhitespaceCharacters : [\p{White_Space}];
 fragment TruncatingWhitespace : SPACE;
 fragment BidirectionalControlCharacter : [\u202A-\u202E\u2066-\u2069];
 fragment Comment : (SimpleComment | BracketedComment);
-fragment SimpleComment : (DOUBLE_SOLIDUS | DOUBLE_MINUS_SIGN) ~[\r\n]* Newline;
+// Newline is optional because the last line may not have a newline
+fragment SimpleComment : (DOUBLE_SOLIDUS | DOUBLE_MINUS_SIGN) ~[\r\n]* Newline?;
 fragment BracketedComment
     : BRACKET_COMMENT_INTRODUCER (BracketedCommentContents)* BRACKET_COMMENT_TERMINATOR
     ;
@@ -523,7 +526,7 @@ fragment Newline : [\r\n];
 // ---------------------------------------------------------------------
 // SPECIAL CHARACTER
 // NOTE:
-// THE ANTLR ALWAYS TRY TO MATCH THE LONGEST TOKEN
+// The lexer always tries to match the longest possible token.
 SPACE : ' ';
 AMPERSAND : '&';
 ASTERISK : '*';

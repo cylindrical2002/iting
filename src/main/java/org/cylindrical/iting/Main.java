@@ -10,17 +10,17 @@ import org.cylindrical.iting.grammar.GQLParser;
 
 public class Main {
     public static void main(String[] args) {
-        String expression = "0xFF_F__F";
+        String expression = "as.ias";
         CharStream input = CharStreams.fromString(expression);
         GQLLexer lexer = new GQLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         tokens.fill();  // Load all tokens from lexer
         for (Token token : tokens.getTokens()) {
-            System.out.println(token.getText() + ": " + token.getType());
+            System.out.println(token.getText() + " : " + lexer.getVocabulary().getSymbolicName(token.getType()));
         }
 
         GQLParser parser = new GQLParser(tokens);
-        ParseTree tree = parser.unsigned_integer();
+        ParseTree tree = parser.identifier();
         System.out.println(tree.toStringTree(parser));
     }
 }
