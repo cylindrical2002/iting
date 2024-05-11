@@ -326,6 +326,26 @@ WRITE : [wW][rR][iI][tT][eE];
 ZONE : [zZ][oO][nN][eE];
 
 // ---------------------------------------------------------------------
+// EXTERNAL URI
+EXTERNALURI : URIScheme '://' URIHost (URIPort)? (URIPath)? (URIQuery)? (URIFrag)?;
+
+// todo: support other types of URI
+fragment URIScheme : ( 'http' | 'https') ;
+fragment URIHost : URIHostname ('.' URIHostname)* ;
+fragment URIHostname : URILetter (URILetterOrDigit | '-' | '_')* ;
+fragment URIPort : ':' URIDigit+ ;
+fragment URIPath : '/' URIPathSeg ('/' URIPathSeg)* ;
+fragment URIPathSeg : URILetterOrDigit (URILetterOrDigit | '-' | '_' | '.')* ;
+fragment URIQuery : '?' URIQueryParam ('&' URIQueryParam)* ;
+fragment URIQueryParam : URIQueryKey '=' URIQueryValue ;
+fragment URIQueryKey : URILetterOrDigit+ ;
+fragment URIQueryValue : (URILetterOrDigit | '-' | '_' | '.' | '%')+ ;
+fragment URIFrag : '#' URILetterOrDigit+ ;
+fragment URILetter : [a-zA-Z] ;
+fragment URIDigit : [0-9] ;
+fragment URILetterOrDigit : URILetter | URIDigit ;
+
+// ---------------------------------------------------------------------
 // CHARACTER STRING
 // NORMAL CASE WITH ESCAPE CHARACTERS
 SINGLE_QUOTED_CHARACTER_SEQUENCE
@@ -411,13 +431,13 @@ UNSIGNED_DECIMAL_INTEGER
     : DecimalNumber
     ;
 UNSIGNED_HEXADECIMAL_INTEGER
-    : HexadecimalPrefix HEXADECIMALDIGIT (UNDERSCORE? HEXADECIMALDIGIT)*
+    : HexadecimalPrefix (UNDERSCORE? HEXADECIMALDIGIT)+
     ;
 UNSIGNED_OCTAL_INTEGER
-    : OctalPrefix OCTALDIGIT (UNDERSCORE? OCTALDIGIT)*
+    : OctalPrefix (UNDERSCORE? OCTALDIGIT)+
     ;
 UNSIGNED_BINARY_INTEGER
-    : BinaryPrefix BINARYDIGIT (UNDERSCORE? BINARYDIGIT)*
+    : BinaryPrefix (UNDERSCORE? BINARYDIGIT)+
     ;
 // OTHER TYPE OF NUMERIC LITERAL
 UNSIGNED_DECIMAL_IN_SCIENTIFIC_NOTATION
@@ -557,7 +577,3 @@ SOLIDUS : '/';
 TILDE : '~';
 UNDERSCORE : '_';
 VERTICAL_BAR : '|';
-
-// TODO: support more digits or languages
-// OTHER_DIGIT : '\uFFFE';
-// OTHER_LANGUAGE_CHARACTER : '\uFFFF';
