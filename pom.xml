@@ -6,7 +6,7 @@
 
     <groupId>org.cylindrical.iting</groupId>
     <artifactId>iting</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <name>Iting</name>
     <description>Iting Temporal Graph Language Interpreter</description>

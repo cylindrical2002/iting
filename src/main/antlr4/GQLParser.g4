@@ -118,11 +118,11 @@ commit_command : COMMIT;
 // procedure specification
 nested_procedure_specification : LEFT_BRACE procedure_specification RIGHT_BRACE;
 
-procedure_specification
-    : catalog__modifying_procedure_specification
-    | data__modifying_procedure_specification
-    | query_specification
-    ;
+// changed from the original grammar
+// because the parser can't distinguish between a catalog-modifying procedure specification
+// and a data-modifying procedure specification
+// and query specification
+procedure_specification : procedure_body;
 
 catalog__modifying_procedure_specification : procedure_body;
 
@@ -1337,6 +1337,9 @@ binding_table_type : BINDING? TABLE field_types_specification;
 // ---------------------------------------------------------------------
 // value type
 // changed from the original grammar to remove left recursion and ambiguity
+// note: if one day some rule uses a rule larger then list_value_type_name
+//       or larger then closed_dynamic_union_value_type
+//       and smaller then the rule value_type, then there would be a bug
 value_type : non__composite_value_type (VERTICAL_BAR non__composite_value_type)*;
 
 non__composite_value_type : value_type_special_case list_value_type_name (LEFT_BRACKET max_length RIGHT_BRACKET)? not_null?;
@@ -1739,16 +1742,23 @@ common_value_expression
     ;
 
 // changed from original
-// because as parser can't distinguish between node_reference_value_expression and edge_reference_value_expression
+// because as parser can't distinguish between node_reference_value_expression
+// and edge_reference_value_expression
 reference_value_expression
-    : graph_reference_value_expression
+    : value_expression_primary
+    | graph_reference_value_expression
     | binding_table_reference_value_expression
+    ;
+
+graph_reference_value_expression
+    : PROPERTY? GRAPH graph_expression
     | value_expression_primary
     ;
 
-graph_reference_value_expression : PROPERTY? GRAPH graph_expression;
-
-binding_table_reference_value_expression : BINDING? TABLE binding_table_expression;
+binding_table_reference_value_expression
+    : BINDING? TABLE binding_table_expression
+    | value_expression_primary
+    ;
 
 node_reference_value_expression : value_expression_primary;
 
@@ -1762,11 +1772,6 @@ aggregating_value_expression : value_expression;
 // value expression primary
 // changed from original to reduce left recursion
 value_expression_primary
-    : value_expression_primary_base
-    | value_expression_primary_base (SOURCE property_name)* // property reference
-    ;
-
-value_expression_primary_base
     : parenthesized_value_expression
     | non__parenthesized_value_expression_primary
     ;
@@ -1784,7 +1789,7 @@ non__parenthesized_value_expression_primary_special_case
     | list_value_constructor
     | record_constructor
     | path_value_constructor
-//  | property_reference
+    | property_reference
     | value_query_expression
     | case_expression
     | cast_specification
@@ -1933,12 +1938,25 @@ element_id_function : ELEMENT_ID LEFT_PAREN element_variable_reference RIGHT_PAR
 
 // ---------------------------------------------------------------------
 // property reference
-property_reference : property_source PERIOD property_name;
+// changed from original to reduce left recursion
+property_reference
+    : property_source PERIOD property_name
+    | property_reference PERIOD property_name
+    ;
 
 property_source
-    : node_reference_value_expression
-    | edge_reference_value_expression
-    | record_expression
+    : parenthesized_value_expression
+    | binding_variable_reference
+    | aggregate_function
+    | unsigned_value_specification
+    | list_value_constructor
+    | record_constructor
+    | path_value_constructor
+    | value_query_expression
+    | case_expression
+    | cast_specification
+    | element_id_function
+    | let_value_expression
     ;
 
 // ---------------------------------------------------------------------
@@ -2344,12 +2362,11 @@ datetime_function_parameters
 
 // ---------------------------------------------------------------------
 // duration value expression
+// changed from original to reduce left recursion
 duration_value_expression
-    : initial_duration_value_expression ((PLUS_SIGN | MINUS_SIGN) duration_term)*
-    ;
-
-initial_duration_value_expression
     : duration_term
+    | duration_value_expression PLUS_SIGN duration_term
+    | duration_value_expression MINUS_SIGN duration_term
     | datetime_subtraction
     ;
 

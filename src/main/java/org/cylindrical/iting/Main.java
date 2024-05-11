@@ -10,7 +10,7 @@ import org.cylindrical.iting.grammar.GQLParser;
 
 public class Main {
     public static void main(String[] args) {
-        String expression = "as.ias";
+        String expression = "MATCH (n:Person) WHERE n.name = 'Alice' RETURN n.age AS age, n.name AS name";
         CharStream input = CharStreams.fromString(expression);
         GQLLexer lexer = new GQLLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -20,7 +20,7 @@ public class Main {
         }
 
         GQLParser parser = new GQLParser(tokens);
-        ParseTree tree = parser.identifier();
+        ParseTree tree = parser.gql_program();
         System.out.println(tree.toStringTree(parser));
     }
 }
