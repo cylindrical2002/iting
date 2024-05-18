@@ -2413,7 +2413,7 @@ duration_function_parameters
 
 duration_absolute_value_function : ABS LEFT_PAREN duration_value_expression RIGHT_PAREN;
 
-// ---------------------------------------------------------------------
+// *********************************************************************
 // name, variable
 authorization_identifier : identifier;
 
