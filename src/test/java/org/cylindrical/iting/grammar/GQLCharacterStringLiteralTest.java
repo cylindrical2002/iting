@@ -44,13 +44,13 @@ public class GQLCharacterStringLiteralTest {
 
                                 try {
                                     ParseTree tree = switch (parts[1]) {
-                                        case "CHARACTER_STRING_LITERAL" -> parser.character_string_literal();
+                                        case "CHARACTER_STRING_LITERAL" -> parser.characterStringLiteral();
                                         case "SINGLE_QUOTED_CHARACTER_SEQUENCE" ->
-                                                parser.single_quoted_character_sequence();
+                                                parser.singleQuotedCharacterSequence();
                                         case "DOUBLE_QUOTED_CHARACTER_SEQUENCE" ->
-                                                parser.double_quoted_character_sequence();
+                                                parser.doubleQuotedCharacterSequence();
                                         case "ACCENT_QUOTED_CHARACTER_SEQUENCE" ->
-                                                parser.accent_quoted_character_sequence();
+                                                parser.accentQuotedCharacterSequence();
                                         default -> fail("Test case rule not recognized: " + parts[1]);
                                     };
 

@@ -17,7 +17,7 @@ public class ItingIR {
         GQLLexer lexer = new GQLLexer(charStream);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         GQLParser parser = new GQLParser(tokens);
-        ParseTree tree = parser.gql_program();
+        ParseTree tree = parser.gqlProgram();
 
         PreCalculatorVisitor preCalculator = new PreCalculatorVisitor();
         preCalculator.visit(tree);

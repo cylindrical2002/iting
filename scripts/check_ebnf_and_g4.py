@@ -16,6 +16,18 @@ def preprocess_rule(rule, rule_type):
     if rule_type == "g4":
         if rule.endswith(";"):
             rule = rule[:-1].rstrip()
+        # Add underscores before numbers in words starting with lowercase letters
+        rule = re.sub(
+            r"(?<!\w)([a-z]\w*)(\d)", lambda m: m.group(1) + "_" + m.group(2), rule
+        )
+        # Replace uppercase letters with _[a-z]
+        rule = re.sub(
+            r"(?<!\w)([a-z]\w*)[A-Z]",
+            lambda m: re.sub(
+                r"([A-Z])", lambda x: "_" + x.group(1).lower(), m.group(0)
+            ),
+            rule,
+        )
     elif rule_type == "ebnf":
         if "SKIP" in rule:
             rule = rule.replace("SKIP", "SKIP_TOKEN")
@@ -36,7 +48,7 @@ def rename_ebnf_names(rule):
     def replace_name(match):
         name = match.group(1)
         name = re.sub(r"\s+", "_", name)
-        name = re.sub(r"[^\w]", "__", name)
+        name = re.sub(r"[^\w]", "_", name)
         return name
 
     rule = re.sub(r"<([^>]+)>", replace_name, rule)

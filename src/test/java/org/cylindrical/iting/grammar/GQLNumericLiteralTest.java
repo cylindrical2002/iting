@@ -44,11 +44,11 @@ public class GQLNumericLiteralTest {
 
                                 try {
                                     ParseTree tree = switch (parts[1]) {
-                                        case "SIGNED_NUMERIC_LITERAL" -> parser.signed_numeric_literal();
-                                        case "UNSIGNED_NUMERIC_LITERAL" -> parser.unsigned_numeric_literal();
-                                        case "EXACT_NUMERIC_LITERAL" -> parser.exact_numeric_literal();
-                                        case "APPROXIMATE_NUMERIC_LITERAL" -> parser.approximate_numeric_literal();
-                                        case "UNSIGNED_INTEGER" -> parser.unsigned_integer();
+                                        case "SIGNED_NUMERIC_LITERAL" -> parser.signedNumericLiteral();
+                                        case "UNSIGNED_NUMERIC_LITERAL" -> parser.unsignedNumericLiteral();
+                                        case "EXACT_NUMERIC_LITERAL" -> parser.exactNumericLiteral();
+                                        case "APPROXIMATE_NUMERIC_LITERAL" -> parser.approximateNumericLiteral();
+                                        case "UNSIGNED_INTEGER" -> parser.unsignedInteger();
                                         default -> fail("Test case rule not recognized: " + parts[1]);
                                     };
 
