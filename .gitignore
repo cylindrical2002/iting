@@ -2,3 +2,4 @@ target/
 logs/
 src/main/antlr4/.antlr/
 doc/
+example/

@@ -34,15 +34,11 @@ def rename_ebnf_names(rule):
     """Rename EBNF names to G4 style by replacing spaces with underscores and non-alphanumerics with double underscores."""
 
     def replace_name(match):
-        # 获取匹配的名称部分，忽略尖括号
         name = match.group(1)
-        # 替换所有空格为单个下划线
         name = re.sub(r"\s+", "_", name)
-        # 替换所有非字母数字字符为双下划线
         name = re.sub(r"[^\w]", "__", name)
         return name
 
-    # 应用替换规则到规则字符串
     rule = re.sub(r"<([^>]+)>", replace_name, rule)
     return rule
 
@@ -114,13 +110,9 @@ def compress_rules(content, rule_type):
 
 
 def compare_rules(ebnf_rules, g4_rules):
-    import re
-
-    # 将列表转换为集合
     ebnf_set = set(ebnf_rules)
     g4_set = set(g4_rules)
 
-    # 准备两个字典，以EBNF和G4规则的首个单词作为键
     ebnf_rules_by_first_word = {}
     g4_rules_by_first_word = {}
     for rule in ebnf_rules:
@@ -139,10 +131,8 @@ def compare_rules(ebnf_rules, g4_rules):
                 g4_rules_by_first_word[first_word] = []
             g4_rules_by_first_word[first_word].append(rule)
 
-    # 已比较并找到相似规则的集合
     compared_pairs = set()
 
-    # 输出 EBNF 中但不在 G4 中的规则
     print(f"{len(ebnf_set - g4_set)} Rules unique to EBNF or have similar in G4:")
     for rule in ebnf_set:
         if rule in g4_set:
@@ -157,7 +147,6 @@ def compare_rules(ebnf_rules, g4_rules):
         print(f"EBNF Rule      : {rule}")
         print(f"Similar G4 Rule: {similar_rule}")
 
-    # 输出 G4 中但不在 EBNF 中的规则
     print(f"\n{len(g4_set - ebnf_set)} Rules unique to G4 or have similar in EBNF:")
     for rule in g4_set:
         if rule in ebnf_set:
