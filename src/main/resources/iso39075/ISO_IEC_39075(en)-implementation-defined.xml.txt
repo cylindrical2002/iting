@@ -26,31 +26,29 @@ features.
 -->
 
 
+ 
 <!DOCTYPE implementationDefined [
+  
+<!-- The implementationDefined element defines the implementation-defined features of 
+     a standard (part). -->
+<!ELEMENT implementationDefined (impDef*)>
 
-        <!-- The implementationDefined element defines the implementation-defined features of
-             a standard (part). -->
-        <!ELEMENT implementationDefined (impDef*)>
+<!-- An impDef element defines a specific implementation-defined feature. -->
+<!ELEMENT impDef (code, description)>
 
-        <!-- An impDef element defines a specific implementation-defined feature. -->
-        <!ELEMENT impDef (code, description)>
+<!-- A code element specifies the unique code for an implementation-defined feature. -->
+<!ELEMENT code (#PCDATA)>
 
-        <!-- A code element specifies the unique code for an implementation-defined feature. -->
-        <!ELEMENT code (#PCDATA)>
+<!-- A description element provides a textual specification of the implementation-defined feature. 
+-->
+<!ELEMENT description (#PCDATA)>
 
-        <!-- A description element provides a textual specification of the implementation-defined feature.
-        -->
-        <!ELEMENT description (#PCDATA)>
-
-        ]>
+]>
 
 <implementationDefined>
    <impDef>
       <code>IA001</code>
-      <description>Whether the declared type of a regular result of a successful outcome of a GQL-request is exposed
-         to
-         the GQL-client.
-      </description>
+      <description>Whether the declared type of a regular result of a successful outcome of a GQL-request is exposed to the GQL-client.</description>
    </impDef>
    <impDef>
       <code>IA002</code>
@@ -58,30 +56,23 @@ features.
    </impDef>
    <impDef>
       <code>IA003</code>
-      <description>The result of any operation other than a normalize function or a normalized predicate on an
-         unnormalized character string.
-      </description>
+      <description>The result of any operation other than a normalize function or a normalized predicate on an unnormalized character string.</description>
    </impDef>
    <impDef>
       <code>IA004</code>
-      <description>The rules for determining the actual value of an approximate numeric type from its apparent value.
-      </description>
+      <description>The rules for determining the actual value of an approximate numeric type from its apparent value.</description>
    </impDef>
    <impDef>
       <code>IA005</code>
-      <description>Whether rounding or truncating occurs when least significant digits are lost on assignment.
-      </description>
+      <description>Whether rounding or truncating occurs when least significant digits are lost on assignment.</description>
    </impDef>
    <impDef>
       <code>IA006</code>
-      <description>The choice of value selected when there is more than one approximation for a numeric type that
-         conforms to the criteria for each supported type of numeric value.
-      </description>
+      <description>The choice of value selected when there is more than one approximation for a numeric type that conforms to the criteria for each supported type of numeric value.</description>
    </impDef>
    <impDef>
       <code>IA007</code>
-      <description>Which supported numeric values other than exact numeric types also have approximations.
-      </description>
+      <description>Which supported numeric values other than exact numeric types also have approximations.</description>
    </impDef>
    <impDef>
       <code>IA010</code>
@@ -89,8 +80,7 @@ features.
    </impDef>
    <impDef>
       <code>IA011</code>
-      <description>Whether rounding or truncating is used on division with an approximate mathematical result.
-      </description>
+      <description>Whether rounding or truncating is used on division with an approximate mathematical result.</description>
    </impDef>
    <impDef>
       <code>IA012</code>
@@ -98,15 +88,11 @@ features.
    </impDef>
    <impDef>
       <code>IA013</code>
-      <description>Whether the General Rules of Evaluation of a selective path pattern are terminated if an exception
-         condition is raised.
-      </description>
+      <description>Whether the General Rules of Evaluation of a selective path pattern are terminated if an exception condition is raised.</description>
    </impDef>
    <impDef>
       <code>IA014</code>
-      <description>Whether an exception condition is raised when the declared type of NULL cannot be determined
-         contextually.
-      </description>
+      <description>Whether an exception condition is raised when the declared type of NULL cannot be determined contextually.</description>
    </impDef>
    <impDef>
       <code>IA015</code>
@@ -114,14 +100,11 @@ features.
    </impDef>
    <impDef>
       <code>IA016</code>
-      <description>Whether to treat byte string differing only in right-most X'00' bytes as equal, or not.
-      </description>
+      <description>Whether to treat byte string differing only in right-most X'00' bytes as equal, or not.</description>
    </impDef>
    <impDef>
       <code>IA017</code>
-      <description>Whether or not an exception condition is raised or an arbitrary value is chosen when multiple
-         assignments to a graph element property are specified.
-      </description>
+      <description>Whether or not an exception condition is raised or an arbitrary value is chosen when multiple assignments to a graph element property are specified.</description>
    </impDef>
    <impDef>
       <code>IA019</code>
@@ -129,15 +112,11 @@ features.
    </impDef>
    <impDef>
       <code>IA020</code>
-      <description>Whether characters of the Unicode General Category class “Co” are permitted to be contained in the
-         representative form of an identifier.
-      </description>
+      <description>Whether characters of the Unicode General Category class “Co” are permitted to be contained in the representative form of an identifier.</description>
    </impDef>
    <impDef>
       <code>IA021</code>
-      <description>Whether an exception condition is raised, or truncation or rounding occurs, when an assignment of
-         some number would result in a loss of its least significant digits.
-      </description>
+      <description>Whether an exception condition is raised, or truncation or rounding occurs, when an assignment of some number would result in a loss of its least significant digits.</description>
    </impDef>
    <impDef>
       <code>IA023</code>
@@ -145,15 +124,11 @@ features.
    </impDef>
    <impDef>
       <code>IA025</code>
-      <description>The effect that additional values resulting from the support of Feature GA01, “IEEE 754 floating
-         point operations” have on the processing of a GQL-request.
-      </description>
+      <description>The effect that additional values resulting from the support of Feature GA01, “IEEE 754 floating point operations” have on the processing of a GQL-request.</description>
    </impDef>
    <impDef>
       <code>IA026</code>
-      <description>Whether a GQL-implementation supports leap seconds or discontinuities in calendars, and the
-         consequences of such support for temporal arithmetic.
-      </description>
+      <description>Whether a GQL-implementation supports leap seconds or discontinuities in calendars, and the consequences of such support for temporal arithmetic.</description>
    </impDef>
    <impDef>
       <code>ID001</code>
@@ -169,8 +144,7 @@ features.
    </impDef>
    <impDef>
       <code>ID004</code>
-      <description>The value types of inner elements of constructed values when no concrete value is specified.
-      </description>
+      <description>The value types of inner elements of constructed values when no concrete value is specified.</description>
    </impDef>
    <impDef>
       <code>ID005</code>
@@ -238,16 +212,11 @@ features.
    </impDef>
    <impDef>
       <code>ID063</code>
-      <description>The numeric declared type of the result of a dyadic arithmetic operator when either operand is
-         approximate numeric.
-      </description>
+      <description>The numeric declared type of the result of a dyadic arithmetic operator when either operand is approximate numeric.</description>
    </impDef>
    <impDef>
       <code>ID064</code>
-      <description>The numeric declared type of the result of a dyadic arithmetic operator when both operands are
-         exact
-         numeric.
-      </description>
+      <description>The numeric declared type of the result of a dyadic arithmetic operator when both operands are exact numeric.</description>
    </impDef>
    <impDef>
       <code>ID065</code>
@@ -267,9 +236,7 @@ features.
    </impDef>
    <impDef>
       <code>ID069</code>
-      <description>The numeric declared types of results of trigonometric functions, general logarithm functions,
-         natural logarithms, exponential functions, and power functions.
-      </description>
+      <description>The numeric declared types of results of trigonometric functions, general logarithm functions, natural logarithms, exponential functions, and power functions.</description>
    </impDef>
    <impDef>
       <code>ID070</code>
@@ -293,8 +260,7 @@ features.
    </impDef>
    <impDef>
       <code>ID085</code>
-      <description>The nullable declared type of NULL if its declared type cannot be determined contextually.
-      </description>
+      <description>The nullable declared type of NULL if its declared type cannot be determined contextually.</description>
    </impDef>
    <impDef>
       <code>ID086</code>
@@ -302,23 +268,15 @@ features.
    </impDef>
    <impDef>
       <code>ID089</code>
-      <description>The use of GRAPH or PROPERTY GRAPH in the preferred name of graph types and graph reference value
-         types.
-      </description>
+      <description>The use of GRAPH or PROPERTY GRAPH in the preferred name of graph types and graph reference value types.</description>
    </impDef>
    <impDef>
       <code>ID090</code>
-      <description>The use of NODE or VERTEX in the preferred name of node types, node reference value types, and
-         their
-         base types.
-      </description>
+      <description>The use of NODE or VERTEX in the preferred name of node types, node reference value types, and their base types.</description>
    </impDef>
    <impDef>
       <code>ID091</code>
-      <description>The use of EDGE or RELATIONSHIP in the preferred name of edge types, edge reference value types,
-         and
-         their base types.
-      </description>
+      <description>The use of EDGE or RELATIONSHIP in the preferred name of edge types, edge reference value types, and their base types.</description>
    </impDef>
    <impDef>
       <code>ID095</code>
@@ -334,8 +292,7 @@ features.
    </impDef>
    <impDef>
       <code>ID098</code>
-      <description>The approximate numeric declared types of the results of the STDDEV_POP and STDDEV_SAMP functions.
-      </description>
+      <description>The approximate numeric declared types of the results of the STDDEV_POP and STDDEV_SAMP functions.</description>
    </impDef>
    <impDef>
       <code>ID099</code>
@@ -347,9 +304,7 @@ features.
    </impDef>
    <impDef>
       <code>IE002</code>
-      <description>The levels of transaction isolation, their interactions, their granularity of application and the
-         Format and Syntax Rules for ‹implementation-defined access mode› used to select them.
-      </description>
+      <description>The levels of transaction isolation, their interactions, their granularity of application and the Format and Syntax Rules for ‹implementation-defined access mode› used to select them.</description>
    </impDef>
    <impDef>
       <code>IE003</code>
@@ -365,8 +320,7 @@ features.
    </impDef>
    <impDef>
       <code>IE006</code>
-      <description>Additional restrictions, requirements, and conditions imposed on mixed-mode transactions.
-      </description>
+      <description>Additional restrictions, requirements, and conditions imposed on mixed-mode transactions.</description>
    </impDef>
    <impDef>
       <code>IE007</code>
@@ -382,9 +336,7 @@ features.
    </impDef>
    <impDef>
       <code>IE010</code>
-      <description>The subclasses providing information of a non-cautionary nature when the completion condition is
-         successful completion.
-      </description>
+      <description>The subclasses providing information of a non-cautionary nature when the completion condition is successful completion.</description>
    </impDef>
    <impDef>
       <code>IL001</code>
@@ -396,14 +348,11 @@ features.
    </impDef>
    <impDef>
       <code>IL003</code>
-      <description>The minimum and maximum cardinalities of key label sets, for each kind of graph element.
-      </description>
+      <description>The minimum and maximum cardinalities of key label sets, for each kind of graph element.</description>
    </impDef>
    <impDef>
       <code>IL009</code>
-      <description>The minimum length of a string resulting from string concatenation of strings of variable-length
-         string types, for each supported string type.
-      </description>
+      <description>The minimum length of a string resulting from string concatenation of strings of variable-length string types, for each supported string type.</description>
    </impDef>
    <impDef>
       <code>IL010</code>
@@ -411,8 +360,7 @@ features.
    </impDef>
    <impDef>
       <code>IL011</code>
-      <description>The maximum precision and scale of numbers of numeric types, for each supported kind of number.
-      </description>
+      <description>The maximum precision and scale of numbers of numeric types, for each supported kind of number.</description>
    </impDef>
    <impDef>
       <code>IL013</code>
@@ -420,8 +368,7 @@ features.
    </impDef>
    <impDef>
       <code>IL015</code>
-      <description>The maximum cardinality of constructed values, for each supported constructed value type.
-      </description>
+      <description>The maximum cardinality of constructed values, for each supported constructed value type.</description>
    </impDef>
    <impDef>
       <code>IL018</code>
@@ -437,8 +384,7 @@ features.
    </impDef>
    <impDef>
       <code>IL024</code>
-      <description>The maximum value of fractional seconds precision for a temporal instant or a temporal duration.
-      </description>
+      <description>The maximum value of fractional seconds precision for a temporal instant or a temporal duration.</description>
    </impDef>
    <impDef>
       <code>IS001</code>
@@ -450,24 +396,19 @@ features.
    </impDef>
    <impDef>
       <code>IV002</code>
-      <description>The result of an inequality comparison between operands that are essentially comparable values when
-         not otherwise specified.
-      </description>
+      <description>The result of an inequality comparison between operands that are essentially comparable values when not otherwise specified.</description>
    </impDef>
    <impDef>
       <code>IV003</code>
-      <description>The choice of the normal form of each supported kind of GQL-object type with a defined normal form.
-      </description>
+      <description>The choice of the normal form of each supported kind of GQL-object type with a defined normal form.</description>
    </impDef>
    <impDef>
       <code>IV008</code>
-      <description>The choice of the normal form of each supported kind of value type with a defined normal form.
-      </description>
+      <description>The choice of the normal form of each supported kind of value type with a defined normal form.</description>
    </impDef>
    <impDef>
       <code>IV010</code>
-      <description>The result of a comparison between two operands that are universally comparable values.
-      </description>
+      <description>The result of a comparison between two operands that are universally comparable values.</description>
    </impDef>
    <impDef>
       <code>IV011</code>
@@ -479,9 +420,7 @@ features.
    </impDef>
    <impDef>
       <code>IV014</code>
-      <description>The set of value types that includes at least one supertype of every static value type supported by
-         the GQL-implementation.
-      </description>
+      <description>The set of value types that includes at least one supertype of every static value type supported by the GQL-implementation.</description>
    </impDef>
    <impDef>
       <code>IV015</code>
@@ -497,16 +436,11 @@ features.
    </impDef>
    <impDef>
       <code>IW001</code>
-      <description>The mechanism for instructing a GQL-client to create and destroy GQL-sessions to GQL-servers, and
-         to
-         submit GQL-requests to them.
-      </description>
+      <description>The mechanism for instructing a GQL-client to create and destroy GQL-sessions to GQL-servers, and to submit GQL-requests to them.</description>
    </impDef>
    <impDef>
       <code>IW002</code>
-      <description>The mechanism for creating and destroying authorization identifiers, and their mapping to
-         principals.
-      </description>
+      <description>The mechanism for creating and destroying authorization identifiers, and their mapping to principals.</description>
    </impDef>
    <impDef>
       <code>IW003</code>
@@ -518,10 +452,7 @@ features.
    </impDef>
    <impDef>
       <code>IW005</code>
-      <description>The mechanism by which termination success or failure statuses are made available to the GQL-agent
-         or
-         administrator.
-      </description>
+      <description>The mechanism by which termination success or failure statuses are made available to the GQL-agent or administrator.</description>
    </impDef>
    <impDef>
       <code>IW006</code>
@@ -537,74 +468,50 @@ features.
    </impDef>
    <impDef>
       <code>IW011</code>
-      <description>The mechanism for determining the reference value type of an element variable declared by a graph
-         pattern.
-      </description>
+      <description>The mechanism for determining the reference value type of an element variable declared by a graph pattern.</description>
    </impDef>
    <impDef>
       <code>IW012</code>
-      <description>The mechanism for determining the reference value type of an element variable declared by insert
-         node
-         pattern.
-      </description>
+      <description>The mechanism for determining the reference value type of an element variable declared by insert node pattern.</description>
    </impDef>
    <impDef>
       <code>IW014</code>
-      <description>The mechanism used to determine if two character strings are visually confusable with each other.
-      </description>
+      <description>The mechanism used to determine if two character strings are visually confusable with each other.</description>
    </impDef>
    <impDef>
       <code>IW015</code>
-      <description>The manner, if it so chooses, in which a GQL-implementation automatically creates and populates a
-         GQL-directory.
-      </description>
+      <description>The manner, if it so chooses, in which a GQL-implementation automatically creates and populates a GQL-directory.</description>
    </impDef>
    <impDef>
       <code>IW016</code>
-      <description>The manner, if it so chooses, in which a GQL-implementation automatically populates a GQL-schema
-         upon
-         its creation.
-      </description>
+      <description>The manner, if it so chooses, in which a GQL-implementation automatically populates a GQL-schema upon its creation.</description>
    </impDef>
    <impDef>
       <code>IW017</code>
-      <description>The manner in which the result of the concatenation of non-normalized character strings is
-         determined.
-      </description>
+      <description>The manner in which the result of the concatenation of non-normalized character strings is determined.</description>
    </impDef>
    <impDef>
       <code>IW018</code>
-      <description>The manner in which lax casts (and supporting type tests) are generated and included in the syntax
-         transforms for the dynamic generation of strict casts.
-      </description>
+      <description>The manner in which lax casts (and supporting type tests) are generated and included in the syntax transforms for the dynamic generation of strict casts.</description>
    </impDef>
    <impDef>
       <code>IW019</code>
-      <description>The mechanism for determining a common supertype of a set of value types of the same primary static
-         base type.
-      </description>
+      <description>The mechanism for determining a common supertype of a set of value types of the same primary static base type.</description>
    </impDef>
    <impDef>
       <code>IW021</code>
-      <description>The mechanism for determining a permutation of all value types of a set of value types that adheres
-         to type precedence rules.
-      </description>
+      <description>The mechanism for determining a permutation of all value types of a set of value types that adheres to type precedence rules.</description>
    </impDef>
    <impDef>
       <code>IW022</code>
-      <description>The mechanism for determining if the null value is not actually going to be assigned to a site.
-      </description>
+      <description>The mechanism for determining if the null value is not actually going to be assigned to a site.</description>
    </impDef>
    <impDef>
       <code>IW023</code>
-      <description>The mechanism for determining the canonical name form of a ‹delimited identifier› or ‹non-delimited
-         identifier›.
-      </description>
+      <description>The mechanism for determining the canonical name form of a ‹delimited identifier› or ‹non-delimited identifier›.</description>
    </impDef>
    <impDef>
       <code>IW025</code>
-      <description>The mechanism for determining which and how many catalog-modifying procedures are under transaction
-         control, and which catalog-modifying procedures can be contained in a single transaction.
-      </description>
+      <description>The mechanism for determining which and how many catalog-modifying procedures are under transaction control, and which catalog-modifying procedures can be contained in a single transaction.</description>
    </impDef>
 </implementationDefined>

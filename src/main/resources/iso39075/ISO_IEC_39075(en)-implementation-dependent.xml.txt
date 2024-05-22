@@ -20,60 +20,49 @@ The second letter of implementation-dependent codes have the following meanings:
 -->
 
 
+
 <!DOCTYPE implementationDependent [
+  
+<!-- The implementationDependent element defines the implementation-dependent features of 
+a standard (part). -->
+<!ELEMENT implementationDependent (unDef*)>
 
-        <!-- The implementationDependent element defines the implementation-dependent features of
-        a standard (part). -->
-        <!ELEMENT implementationDependent (unDef*)>
+<!-- An unDef element defines a specific implementation-dependent feature. -->
+<!ELEMENT unDef (code, description)>
 
-        <!-- An unDef element defines a specific implementation-dependent feature. -->
-        <!ELEMENT unDef (code, description)>
+<!-- A code element specifies the unique code for an implementation-dependent feature. -->
+<!ELEMENT code (#PCDATA)>
 
-        <!-- A code element specifies the unique code for an implementation-dependent feature. -->
-        <!ELEMENT code (#PCDATA)>
+<!-- A description element provides a textual specification of the implementation-dependent feature.
+-->
+<!ELEMENT description (#PCDATA)>
 
-        <!-- A description element provides a textual specification of the implementation-dependent feature.
-        -->
-        <!ELEMENT description (#PCDATA)>
-
-        ]>
+]>
 
 <implementationDependent>
    <unDef>
       <code>UA001</code>
-      <description>The interaction between multiple GQL-environments within the constraints of GQL-transaction
-         semantics.
-      </description>
+      <description>The interaction between multiple GQL-environments within the constraints of GQL-transaction semantics.</description>
    </unDef>
    <unDef>
       <code>UA002</code>
-      <description>Whether or not diagnostic information pertaining to more than one condition is made available.
-      </description>
+      <description>Whether or not diagnostic information pertaining to more than one condition is made available.</description>
    </unDef>
    <unDef>
       <code>UA004</code>
-      <description>Whether or not that exception condition is actually raised when the evaluation of an inessential
-         part
-         of an expression or search condition would cause an exception to be raised.
-      </description>
+      <description>Whether or not that exception condition is actually raised when the evaluation of an inessential part of an expression or search condition would cause an exception to be raised.</description>
    </unDef>
    <unDef>
       <code>UA005</code>
-      <description>Which path bindings are retained in an any paths search if the number of candidates exceeds the
-         required number.
-      </description>
+      <description>Which path bindings are retained in an any paths search if the number of candidates exceeds the required number.</description>
    </unDef>
    <unDef>
       <code>UA006</code>
-      <description>Which additional path bindings are actually probed to establish whether they might also raise an
-         exception when the GQL-implementation has terminated the evaluation of a selective path pattern.
-      </description>
+      <description>Which additional path bindings are actually probed to establish whether they might also raise an exception when the GQL-implementation has terminated the evaluation of a selective path pattern.</description>
    </unDef>
    <unDef>
       <code>UA007</code>
-      <description>Whether or not a rollback is forced when a GQL-transaction becomes blocked, cannot complete without
-         causing semantic inconsistency, or the resources required to continue its execution become unavailable.
-      </description>
+      <description>Whether or not a rollback is forced when a GQL-transaction becomes blocked, cannot complete without causing semantic inconsistency, or the resources required to continue its execution become unavailable.</description>
    </unDef>
    <unDef>
       <code>US001</code>
@@ -105,9 +94,7 @@ The second letter of implementation-dependent codes have the following meanings:
    </unDef>
    <unDef>
       <code>UV003</code>
-      <description>The ‹value expression› whose evaluation raises the exception condition: “data exception — invalid
-         value type (22G12)”.
-      </description>
+      <description>The ‹value expression› whose evaluation raises the exception condition: “data exception — invalid value type (22G12)”.</description>
    </unDef>
    <unDef>
       <code>UV004</code>
@@ -123,9 +110,7 @@ The second letter of implementation-dependent codes have the following meanings:
    </unDef>
    <unDef>
       <code>UV009</code>
-      <description>Which arbitrary value is chosen when multiple assignments to a graph element property are
-         specified.
-      </description>
+      <description>Which arbitrary value is chosen when multiple assignments to a graph element property are specified.</description>
    </unDef>
    <unDef>
       <code>UV014</code>
@@ -133,8 +118,6 @@ The second letter of implementation-dependent codes have the following meanings:
    </unDef>
    <unDef>
       <code>UW001</code>
-      <description>The mechanism for determining which exception condition is to be returned as the primary GQL-status
-         object of an execution outcome from a set of raised exception conditions.
-      </description>
+      <description>The mechanism for determining which exception condition is to be returned as the primary GQL-status object of an execution outcome from a set of raised exception conditions.</description>
    </unDef>
 </implementationDependent>

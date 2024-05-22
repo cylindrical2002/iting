@@ -10,47 +10,47 @@ expressions and execution of GQL statements.
 It may also be used by documentation writers and translators to document those conditions in the 
 natural languages of users of GQL-implementations.  
   -->
-
+ 
 <!DOCTYPE conditions [
-
-        <!-- The conditions element defines the conditions (completion or exception) for a set of standards.
-        -->
-        <!ELEMENT conditions ((class)*)>
-
-
-        <!-- A class element defines the class code of an SQLSTATE or GQLSTATUS value.
-        -->
-        <!ELEMENT class ( ( subclass )* )>
-        <!-- The attributes of class are:
-              * category is the category of the class of conditions:
-                - S - Successful Completion
-                - N - No Data
-                - W - Warning
-                - I - Informational
-                - X - Exception
-              * code is the unique class code of the class of conditions.
-              * name is the unique natural language name of the class of conditions.
-        -->
-        <!ATTLIST class
-                category ( S | N | W | I | X) #REQUIRED
-                code CDATA #REQUIRED
-                name CDATA #REQUIRED
-                >
+  
+<!-- The conditions element defines the conditions (completion or exception) for a set of standards.
+-->
+<!ELEMENT conditions ((class)*)>
 
 
-        <!-- A subclass element defines the subclass code of an SQLSTATE or GQLSTATUS value.
-        -->
-        <!ELEMENT subclass (#PCDATA)>
-        <!-- The attributes of subclass are:
-              * code is the unique subclass code of the subclass within the class.
-              * name is the unique natural language name of the subclass within the class.
-        -->
-        <!ATTLIST subclass
-                code CDATA #REQUIRED
-                name CDATA #REQUIRED
-                >
+<!-- A class element defines the class code of an SQLSTATE or GQLSTATUS value.
+-->
+<!ELEMENT class ( ( subclass )* )>
+<!-- The attributes of class are:
+      * category is the category of the class of conditions:
+        - S - Successful Completion
+        - N - No Data
+        - W - Warning
+        - I - Informational
+        - X - Exception
+      * code is the unique class code of the class of conditions.
+      * name is the unique natural language name of the class of conditions.
+-->
+<!ATTLIST class
+    category ( S | N | W | I | X) #REQUIRED
+    code CDATA #REQUIRED
+    name CDATA #REQUIRED
+>
 
-        ]>
+
+<!-- A subclass element defines the subclass code of an SQLSTATE or GQLSTATUS value.
+-->
+<!ELEMENT subclass (#PCDATA)>
+<!-- The attributes of subclass are:
+      * code is the unique subclass code of the subclass within the class.
+      * name is the unique natural language name of the subclass within the class.
+-->
+<!ATTLIST subclass
+    code CDATA #REQUIRED
+    name CDATA #REQUIRED
+>
+
+]>
 
 <conditions>
    <class category="S" code="00" name="successful completion">
@@ -131,13 +131,13 @@ natural languages of users of GQL-implementations.
       <subclass code="010" name="number of node labels exceeds supported maximum"/>
       <subclass code="011" name="number of node properties exceeds supported maximum"/>
       <subclass code="012"
-                name="number of node type key labels below supported minimum"/>
+                 name="number of node type key labels below supported minimum"/>
       <subclass code="013"
-                name="number of node type key labels exceeds supported maximum"/>
+                 name="number of node type key labels exceeds supported maximum"/>
       <subclass code="014"
-                name="number of edge type key labels below supported minimum"/>
+                 name="number of edge type key labels below supported minimum"/>
       <subclass code="015"
-                name="number of edge type key labels exceeds supported maximum"/>
+                 name="number of edge type key labels exceeds supported maximum"/>
    </class>
    <class category="X" code="G1" name="dependent object error">
       <subclass code="001" name="edges still exist"/>
